@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+    <%for(var i=0;i<ideas.length;i++){%>
+        <div class="card card-body">
+            <h4>
+                <%=ideas[i].title%>
+            </h4>
+            <p>
+                <%=ideas[i].details%>
+            </p>
+
+            <a class="btn btn-dark btn-block" href="/ideas/edit/<%=ideas[i]._id%>">Edit</a>
+            <form action="/ideas/<%=ideas[i]._id%>?_method=DELETE" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" class="btn btn-danger btn-block" value="delete"> </form>
+
+        </div>
+        <%}%>
+            <% include ../partials/footer %>
