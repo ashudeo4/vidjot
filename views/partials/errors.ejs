@@ -1,5 +1,10 @@
-<% for(var i=0;i<errors.length;i++){ %>
+<% for(var i=0;i<error.length;i++){ %>
     <div class="alert alert-danger">
-        <%=errors[i].text%>
+        <%=error%>
     </div>
     <% } %>
+        <% for(var i=0;i<errors.length;i++){ %>
+            <div class="alert alert-danger">
+                <%=errors[i].text%>
+            </div>
+            <% } %>

@@ -6,6 +6,10 @@ const User = require("../models/user");
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
+
+router.use(passport.initialize());
+router.use(passport.session());
+
 router.use(session({
     secret: 'secret',
     resave: 'true',
@@ -18,22 +22,31 @@ router.use(function(req, res, next) {
     res.locals.error = req.flash('error');
     next();
 });
+// console.log(req.locals.user);
+
 
 router.get("/login", (req, res) => {
-    res.render('user/login');
+    res.render('user/login', {
+        errors: [],
+
+    })
+
+
 });
-router.get("/register", (req, res) => {
-    res.render('user/register', { errors: [], name: '', email: '', password: '', password2: '' });
-});
+
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/ideas',
-        failureRedirect: '/users/login',
+        failureRedirect: '/user/login',
         failureFlash: true
 
     })(req, res, next);
 
 });
+router.get("/register", (req, res) => {
+    res.render('user/register', { errors: [], name: '', email: '', password: '', password2: '' });
+});
+
 
 router.post('/register', (req, res) => {
     let errors = [];
@@ -79,6 +92,13 @@ router.post('/register', (req, res) => {
         });
         // res.send('pass');
     }
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    req.flash('success-msg', 'You are logged out');
+    res.redirect('/user/login');
+    // res.send('ok');
 });
 
 module.exports = router;
